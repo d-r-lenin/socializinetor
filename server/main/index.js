@@ -16,6 +16,9 @@ app.use('/api/users', require('./controllers/users/user'));
 const midAuth = require('./controllers/middlewares/auth');
 app.use(midAuth);
 
+
+app.use('/post', require('./routes/posts/posts.js'));
+
 app.get('/', (req, res) => res.json({ 
     message: 'Hello World', 
     status: 200, 
