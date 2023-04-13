@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        trim: true
+    },
     title: {
         type: String,
         required: true,
@@ -27,6 +32,11 @@ const postSchema = new mongoose.Schema({
     comments: {
         type: [
             {
+                _id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    default: () => mongoose.Types.ObjectId(),
+                    unique: true
+                },
                 username: {
                     type: String,
                     required: true,
@@ -45,10 +55,16 @@ const postSchema = new mongoose.Schema({
                 }
             }
         ],
+        default: []
     }
 }, {
     timestamps: true,
 });
+
+
+postSchema.index({ "comments._id": 1 }, { unique: true });
+postSchema.index({ "comments.createdAt": 1 });
+postSchema.index({ "username": 1 });
 
 const Post = mongoose.model('Post', postSchema);
 

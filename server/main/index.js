@@ -14,7 +14,9 @@ app.use(cookieParser());
 app.use('/api/users', require('./controllers/users/user'));
 
 const midAuth = require('./controllers/middlewares/auth');
+const midAdditions = require('./controllers/middlewares/addons');
 app.use(midAuth);
+app.use(midAdditions.addErrorHandler);
 
 
 app.use('/post', require('./routes/posts/posts.js'));

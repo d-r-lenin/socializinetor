@@ -4,6 +4,23 @@ const controller = {
     async addComment(req,res){
         try {
             const post = await Post.findById(req.params.postId);
+
+            if(!post)
+                throw new Error("Post not found$404");
+
+            if(req.body.body.trim() === '')
+                throw new Error("Comment body must not be empty$400");
+            
+            if(req.body.body.length > 300)
+                throw new Error("Comment body must not be longer than 300 characters$400");
+
+            // check if user is already in the commenters array
+            if(post.comments.some(
+                    comment => comment.username === req.user.username)
+                ){
+                throw new Error("You already commented on this post$400");
+            }
+
             post.comments.push({
                 username: req.user.username,
                 body: req.body.body,
@@ -14,18 +31,29 @@ const controller = {
             res.json(savedPost);
         } catch(err){
             console.error(err);
-            res.status(400).json({message: err});
+            res.sendError(err);
         }
     },
 
     async updateComment(req,res){
         try {
             const post = await Post.findById(req.params.postId);
+
+            if(!post)
+                throw new Error("Post not found$404");
+
+            if(req.body.body.trim() === '')
+                throw new Error("Comment body must not be empty$400");
+
+            if(req.body.body.length > 300)
+                throw new Error("Comment body must not be longer than 300 characters$400");
+
+
             const comment = post.comments.id(req.params.commentId);
-            console.log(comment);
+            // console.log(comment);
             
             if (!comment) 
-                return res.status(400).json({message: 'Comment not found'});
+                throw new Error("Comment not found$404");
 
             if(comment.username === req.user.username){
                 comment.body = req.body.body;
@@ -33,11 +61,11 @@ const controller = {
                 const savedPost = await post.save();
                 res.json(savedPost);
             } else {
-                res.status(400).json({message: 'You cannot edit this comment'});
+                throw new Error("You cannot update this comment$400");
             }
         } catch(err){
             console.error(err);
-            res.status(400).json({message: err});
+            res.sendError(err);
         }
     },
 
@@ -46,19 +74,20 @@ const controller = {
             const post = await Post.findById(req.params.postId);
             const comment = post.comments.id(req.params.commentId);
             console.log(comment);
+
             if(!comment) 
-                return res.status(400).json({message: 'Comment not found'});
+                throw new Error("Comment not found$404");
 
             if(comment.username === req.user.username){
                 post.comments.pull(comment);
                 const savedPost = await post.save();
                 res.json(savedPost);
             } else {
-                res.status(400).json({message: 'You cannot delete this comment'});
+                throw new Error("You cannot delete this comment$400");
             }
         } catch(err){
             console.error(err);
-            res.status(400).json({message: err});
+            res.sendError(err);
         }
     }
 }
