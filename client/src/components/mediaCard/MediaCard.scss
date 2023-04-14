@@ -1,0 +1,115 @@
+.card{
+    background-color: #fcfcfc;
+    max-width: 60rem;
+    width: 100%;
+    padding:0 1rem ;
+    margin: 0 auto;
+
+    &__header{
+        // background-color: #fff;
+        height: 5rem;
+    }
+
+    &__profile{
+        height: 100%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: left;
+        padding: .2rem 1rem;
+
+        &-pic{
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+        }
+
+    }
+
+    &__username-holder{
+        height: 100%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: left;
+        margin-left: 1rem;
+    }
+
+    &__username{
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+
+    &__posted-time{
+        font-size: 1.2rem;
+        font-weight: 300;
+        margin-left: .5rem;
+
+        .dot{
+            font-weight: 500;
+        }
+    }
+
+    &__options{
+        height: 100%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: right;
+        padding: 0 2rem;
+
+        &-icon{
+            font-size: 2.5rem;
+            aspect-ratio: 1/1;
+            color: #555;
+        }
+    }
+
+
+    &__body{
+        border-radius: 2px;
+        overflow: hidden;
+        background-color: #fff;
+        margin: 1rem 0;
+
+        &-text{
+            font-size: 1.4rem;
+            margin: .4rem 1rem;
+        }
+
+        &-pic{
+            width: 100%;
+            height: auto;
+            border-radius: 3px;
+        }
+    }
+
+    &__footer{
+        height: 5rem;
+    }
+
+    &__interaction-tray{
+        width: fit-content;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: left;
+        gap: 1rem;
+        padding:0 2rem;
+    }
+
+    &__interaction-icon{
+        font-size: 3rem;
+        aspect-ratio: 1/1;
+    }
+
+    &__save-btn {
+        float: right;
+    }
+
+
+}

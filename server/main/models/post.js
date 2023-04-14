@@ -34,7 +34,9 @@ const postSchema = new mongoose.Schema({
             {
                 _id: {
                     type: mongoose.Schema.Types.ObjectId,
-                    default: () => mongoose.Types.ObjectId(),
+                    default: function() {
+                        return new mongoose.Types.ObjectId();
+                    },
                     unique: true
                 },
                 username: {

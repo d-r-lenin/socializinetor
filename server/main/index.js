@@ -19,7 +19,7 @@ app.use(midAuth);
 app.use(midAdditions.addErrorHandler);
 
 
-app.use('/post', require('./routes/posts/posts.js'));
+app.use('/api/post', require('./routes/posts/posts.js'));
 
 app.get('/', (req, res) => res.json({ 
     message: 'Hello World', 
