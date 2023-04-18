@@ -7,6 +7,7 @@ import Root from './routes/root';
 import ErrorPage from './error-page';
 
 import MediaCard from './components/mediaCard/MediaCard';
+import ProfilePage from './components/profilePage/ProfilePage';
 import Home from './components/home/Home';
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/direct/inbox',
         element: <MediaCard/>
+      },
+      {
+        path: '/profile',
+        element: <ProfilePage /> 
       }
     ]
   }

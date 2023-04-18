@@ -14,18 +14,18 @@ import {
     // IoBookmarkSharp,
 } from 'react-icons/io5'; 
 
-function MediaCard() {
+function MediaCard({ post }) {
   return (
     <div className="card">
         <div className="card__header">
             <div className='card__profile' >
-                <img className='card__profile-pic' src="https://picsum.photos/100/100" alt="random" />
+                <img className='card__profile-pic' src={ post.image } alt="random" />
             </div>
             <div className='card__username-holder'>
-                <div className='card__username'>Username</div>
+                <div className='card__username'>{post.username}</div>
                 <div className='card__posted-time'> 
                     <span className='dot'>&#8226;</span>
-                    12/12/2020
+                    {new Date(post.createdAt).toLocaleTimeString()}
                 </div>
             </div>
 
@@ -38,10 +38,9 @@ function MediaCard() {
 
         <div className="card__body">
             <div className='card__body-text'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
+                {post.body}
             </div>
-            <img className='card__body-pic' src="https://picsum.photos/500/300" alt="random" />
+            <img className='card__body-pic' src={post.image} alt="random" />
         </div>
 
         <div className="card__footer">

@@ -33,9 +33,9 @@ function Nav() {
             <div title="Notification" className='nav__likes nav__icon icon-m'>
                 <IoHeartOutline />
                 </div>
-            <div title="Profile" className='nav__profile nav__icon icon-m'>
+            <Link to='/profile' title="Profile" className='nav__profile nav__icon icon-m'>
                 <IoPersonOutline />
-                </div>
+                </Link>
             <div title="More" className='nav__menu nav__icon icon-m'>
                 <IoMenuOutline />
                 </div>
