@@ -10,3 +10,10 @@ Run: (win - bash)
     source venv/bin/activate
     pip install -r requirements.txt
     
+
+
+create '.env' file here and add required env variables:
+
+
+run this for development server
+    flask --app app --debug run
