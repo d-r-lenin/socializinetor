@@ -1,10 +1,17 @@
 import jwt
 from flask import jsonify, make_response, request
 from json import loads
+from bcrypt import hashpw, gensalt, checkpw
 
 from config.keys import MASTER_KEY
 
 from models.user import User
+
+def genarateHash(password):
+    return hashpw(password.encode('utf-8'), gensalt()).decode('utf-8')
+
+def validatePassword(password, hashedPassword):
+    return checkpw(password.encode('utf-8'), hashedPassword.encode('utf-8'))
 
 def validateUser(data):
     if 'username' not in data:
@@ -31,11 +38,10 @@ def create_user(request):
         body = request.get_data()
         data = loads(body)
         userData = validateUser(data)
+        userData['password'] = genarateHash(userData['password'])
         
         user = User(**userData)
         user.save()
-        
-        print(MASTER_KEY)
         
         token = jwt.encode({ 'username': user.username }, MASTER_KEY, algorithm='HS256')
         
@@ -53,9 +59,13 @@ def login(request):
     try:
         body = loads(request.get_data())
         user = User.objects(username=body['username']).first()
+        
+        print(user.password)
+        print(genarateHash(body['password']))
+        
         if user is None:
             raise ValueError('user not found')
-        if user.password != body['password']:
+        if not validatePassword(body['password'], user.password):
             raise ValueError('password is incorrect')
         
         token = jwt.encode({ 'username': user.username }, MASTER_KEY, algorithm='HS256')
@@ -107,3 +117,15 @@ def check_username(request):
         return jsonify({'message': 'username is not available'}), 409
     except (Exception) as e:
         return jsonify({ 'error': str(e), 'message': 'user not created' }), 400
+
+
+def is_authenticated(request):
+    try:
+        token = request.cookies.get('sozi-x-auth-token')
+        if token is None:
+            return False
+        jwt.decode(token, MASTER_KEY, algorithms=['HS256'])
+        return True
+    except (Exception) as e:
+        print(e)
+        return False
