@@ -4,7 +4,8 @@ const User = require('../../models/user');
 const { getMaster } = require('../../configs/keys');
 
 async function auth(req, res, next) {
-    const token = req.cookies['x-auth-token'];
+    const token = req.cookies['sozi-x-auth-token'];
+    console.log(req.cookies);
     if (!token) return res.status(401).send('Access denied. No token provided.');
 
     try {

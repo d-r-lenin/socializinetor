@@ -13,7 +13,8 @@ Run: (win - bash)
 
 
 create '.env' file here and add required env variables:
-
+    MONGO_URL
+    MONGO_DB
 
 run this for development server
     flask --app app --debug run

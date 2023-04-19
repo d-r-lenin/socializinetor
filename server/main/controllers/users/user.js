@@ -24,7 +24,7 @@ router.get('/test/register', async (req, res) => {
 
     // set http-only cookie
     res.cookie(
-        'xr-auth-token', 
+        'x-auth-token', 
         token, 
         { httpOnly: true }
     ).send(token);
