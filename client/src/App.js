@@ -10,6 +10,8 @@ import MediaCard from './components/mediaCard/MediaCard';
 import ProfilePage from './components/profilePage/ProfilePage';
 import Home from './components/home/Home';
 
+import SignIn from './components/signIn/SignIn';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,6 +35,9 @@ const router = createBrowserRouter([
         element: <ProfilePage /> 
       }
     ]
+  },{
+    path: '/signin',
+    element: <SignIn/>
   }
 ]);
 
@@ -44,5 +49,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
