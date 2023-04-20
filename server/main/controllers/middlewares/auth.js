@@ -5,14 +5,14 @@ const { getMaster } = require('../../configs/keys');
 
 async function auth(req, res, next) {
     const token = req.cookies['sozi-x-auth-token'];
-    console.log(req.cookies);
+    // console.log(req.cookies);
     if (!token) return res.status(401).send('Access denied. No token provided.');
 
     try {
         const masterKey = await getMaster("MASTER_KEY");
         const decoded = jwt.verify(token, masterKey);
         req.user = decoded;
-        console.log(decoded);
+        // console.log(decoded);
         next();
     }
     catch (err) {

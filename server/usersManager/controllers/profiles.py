@@ -1,5 +1,7 @@
+import base64
 from flask import jsonify, make_response, request
 from json import loads
+
 
 from models.user import User
 from models.profile import Profile
@@ -11,11 +13,14 @@ def validate_profile_data(body):
         raise ValueError('name is required')
     if 'bio' not in body:
         raise ValueError('bio is required')
+    if 'display' not in body:
+        raise ValueError('display is required')
     
     return {
-        username: body['username'],
-        name: body['name'],
-        bio: body['bio']
+        'username': body['username'],
+        'name': body['name'],
+        'bio': body['bio'],
+        'display': body['display']
     }
 
 
@@ -39,13 +44,22 @@ def check_availability(request):
 
 def create_profile(request):
     try:
-        body = loads(request.get_data())
-        validatad = validate_profile_data(body)
+        body = request.form
+        display = request.files['display']
+        display_binary = display.read()
+        validatad = validate_profile_data({**body, 'display': display_binary})
         
         profile = Profile(**validatad)
         profile.save()
-        
-        return jsonify({ 'message': 'profile created', 'profile': profile })
+        print(profile)
+        return jsonify({
+            'message': 'profile created', 'profile': {
+                'username': profile.username,
+                'name': profile.name,
+                'bio': profile.bio,
+                'display': base64.b64encode(profile.display).decode('utf-8')
+            }
+        })
     except (Exception) as e:
         return jsonify({ 'error': str(e), 'message': 'profile not created' }), 400
 
@@ -72,8 +86,15 @@ def get_one_profile(request):
         
         profile = Profile.objects(username=username).first()
         
-        return jsonify({ 'message': 'profile found', 'profile': profile })
+        profile_without_display = { 'username': profile.username, 'name': profile.name, 'bio': profile.bio }
+        
+        return jsonify({ 'message': 'profile found', 'profile': {
+                **profile_without_display,
+                'display': base64.b64encode(profile.display).decode('utf-8')
+            }
+        })
     except (Exception) as e:
+        raise e
         return jsonify({ 'error': str(e), 'message': 'profile not found' }), 400
 
 def update_profile(request):
@@ -84,6 +105,7 @@ def update_profile(request):
         profile = Profile.objects(username=validatad['username']).first()
         profile.name = validatad['name']
         profile.bio = validatad['bio']
+        profile.display = validatad['display']
         profile.save()
         
         return jsonify({ 'message': 'profile updated', 'profile': profile })

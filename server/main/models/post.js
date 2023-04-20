@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema({
         default: ''
     },
     image: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         default: null
     },
     likes: {
@@ -32,13 +32,6 @@ const postSchema = new mongoose.Schema({
     comments: {
         type: [
             {
-                _id: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    default: function() {
-                        return new mongoose.Types.ObjectId();
-                    },
-                    unique: true
-                },
                 username: {
                     type: String,
                     required: true,

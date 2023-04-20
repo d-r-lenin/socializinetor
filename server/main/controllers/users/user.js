@@ -50,7 +50,7 @@ router.get('/test/login', async (req, res) => {
 
     const token = jwt.sign({ username: user.username }, masterKey);
     res.cookie(
-        'x-auth-token',
+        'sozi-x-auth-token',
         token, 
         { httpOnly: true }
     ).send(token);

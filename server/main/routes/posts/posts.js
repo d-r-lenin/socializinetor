@@ -1,5 +1,9 @@
 // create route
 const express = require('express');
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const router = express.Router();
 
@@ -8,7 +12,8 @@ const {
     createPost,
     getPost,
     deletePost,
-    updatePost
+    updatePost,
+    getMedia
 } = require('../../controllers/posts/post');
 
 const {
@@ -24,13 +29,17 @@ const {
     updateComment
 } = require('../../controllers/posts/comment');
 
+
+router
+    .get('/media/:id', getMedia);
+
 // post routes
 router
     .get('/', getPosts)
-    .post('/', createPost)
+    .post('/', upload.single('media') ,createPost)
     .get('/:postId', getPost)
     .delete('/:postId', deletePost)
-    .patch('/:postId', updatePost)
+    .patch('/:postId', upload.single('media'), updatePost)
 
 // like routes
 router

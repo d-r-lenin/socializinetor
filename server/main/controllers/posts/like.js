@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Post = require('../../models/Post');
+const Post = require('../../models/post.js');
 
 const controller = {
     async addLike(req,res){

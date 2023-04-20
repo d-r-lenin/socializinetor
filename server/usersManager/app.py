@@ -1,6 +1,7 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 from config.keys import MASTER_KEY
 
@@ -13,6 +14,7 @@ from views.profiles import profile_bp
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 app.config['MONGO_URI'] = os.environ.get('MONGO_URL') # not in use yet
 
 # BUG: AuthMiddleware is not working properly
@@ -34,7 +36,8 @@ def close(responce):
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    # send file test.html from root
+    return render_template("test.html")
 
 
 if(__name__ == "__main__"):

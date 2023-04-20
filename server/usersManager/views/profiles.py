@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from controllers.profiles import check_availability, create_profile, delete_profile, update_profile, get_one_profile, get_multiple_profiles
+from controllers.profiles import check_availability, create_profile, delete_profile, update_profile, get_one_profile, get_multiple_profiles, get_all_profiles
 
 profile_bp = Blueprint('p', __name__)
 

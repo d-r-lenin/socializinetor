@@ -1,11 +1,12 @@
-from mongoengine import Document, StringField, EmailField, DateTimeField, IntField, BooleanField, ListField, ReferenceField, EmbeddedDocumentField, EmbeddedDocument, CASCADE
+from mongoengine import Document, StringField, EmailField, DateTimeField, IntField, BooleanField, ListField, ReferenceField, EmbeddedDocumentField, EmbeddedDocument, CASCADE, BinaryField
 
 class Profile(Document):
     username = StringField(required=True, unique=True, min_length=3)
     name = StringField(required=True)
     bio = StringField(default='', trim=True)
-    created_at = DateTimeField(required=True)
-    updated_at = DateTimeField(required=True)
+    display = BinaryField(default=b'')
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
 
     meta = {
         'collection': 'profiles',
