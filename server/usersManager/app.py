@@ -14,7 +14,7 @@ from views.profiles import profile_bp
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 app.config['MONGO_URI'] = os.environ.get('MONGO_URL') # not in use yet
 
 # BUG: AuthMiddleware is not working properly

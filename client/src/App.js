@@ -1,7 +1,7 @@
 import './App.scss';
 
 // react router
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Root from './routes/root';
 import ErrorPage from './error-page';
@@ -11,6 +11,8 @@ import ProfilePage from './components/profilePage/ProfilePage';
 import Home from './components/home/Home';
 
 import SignIn from './components/signIn/SignIn';
+import SignUp from './components/signup/Signup';
+import axios from 'axios';
 
 const router = createBrowserRouter([
   {
@@ -32,20 +34,35 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <ProfilePage /> 
+        element: <ProfilePage />
       }
     ]
-  },{
+  },
+  {
     path: '/signin',
     element: <SignIn/>
+  },
+  {
+    path: '/signup',
+    element: <SignUp/>
   }
 ]);
 
 
 function App() {
+
+  function signout(){
+    axios.get('http://localhost:4000/user/logout').then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
   return (
     <div className="app">
       <RouterProvider router={router}/>
+      <button onClick={signout} >logout</button>
     </div>
   );
 }

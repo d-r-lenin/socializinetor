@@ -1,9 +1,13 @@
 # rest api for users login
 from flask import Blueprint, request, jsonify
 
-from controllers.users import home, create_user, login, delete_user, logout
+from controllers.users import home, create_user, login, delete_user, logout, ping
 
 user_bp = Blueprint('u', __name__)
+
+@user_bp.route('/ping')
+def ping_():
+    return ping(request)
 
 @user_bp.route('/')
 def test():

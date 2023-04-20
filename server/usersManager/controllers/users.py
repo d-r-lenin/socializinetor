@@ -72,7 +72,7 @@ def login(request):
         
         resp = make_response(jsonify({ 'message': 'user logged in', 'user': user.username }))
         
-        resp.set_cookie('sozi-x-auth-token', token, httponly=True,samesite='None')
+        resp.set_cookie('sozi-x-auth-token', token, httponly=True,samesite='None', secure=True)
         
         return resp
     except (Exception) as e:
@@ -80,7 +80,8 @@ def login(request):
 
 def logout(request):
     resp = make_response(jsonify({ 'message': 'user logged out' }))
-    resp.set_cookie('sozi-x-auth-token', '', httponly=True, samesite='None')
+    resp.set_cookie('sozi-x-auth-token', '', httponly=True, samesite='None', secure=True, expires=0)
+    
     return resp
 
 
@@ -129,3 +130,22 @@ def is_authenticated(request):
     except (Exception) as e:
         print(e)
         return False
+
+
+def ping(request):
+    try:
+        token = request.cookies.get('sozi-x-auth-token')
+        # get all cookies
+        cookies = request.cookies
+        print(cookies)
+        if token is None:
+            return jsonify({'message': 'Token is not provided'}), 401
+        tokenData = jwt.decode(token, MASTER_KEY, algorithms=['HS256'])
+        # check if user exists
+        user = User.objects(username=tokenData['username']).first()
+        if user is None:
+            return jsonify({'message': 'user not exists'}), 401
+        return jsonify({'message': 'user is logged in'}), 200
+    except (Exception) as e:
+        # raise e
+        return jsonify({'message': 'user is not logged in'}), 401
