@@ -1,0 +1,98 @@
+.card {
+  background-color: #fcfcfc;
+  max-width: 60rem;
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+.card__header {
+  height: 5rem;
+}
+.card__profile {
+  height: 100%;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  padding: 0.2rem 1rem;
+}
+.card__profile-pic {
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+.card__username-holder {
+  height: 100%;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  margin-left: 1rem;
+}
+.card__username {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+.card__posted-time {
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin-left: 0.5rem;
+}
+.card__posted-time .dot {
+  font-weight: 500;
+}
+.card__options {
+  height: 100%;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: right;
+  padding: 0 2rem;
+}
+.card__options-icon {
+  font-size: 2.5rem;
+  aspect-ratio: 1/1;
+  color: #555;
+}
+.card__body {
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: #fff;
+  margin: 1rem 0;
+}
+.card__body-text {
+  font-size: 1.4rem;
+  margin: 0.4rem 1rem;
+}
+.card__body-pic {
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+}
+.card__footer {
+  height: 5rem;
+}
+.card__interaction-tray {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  gap: 1rem;
+  padding: 0 2rem;
+}
+.card__interaction-icon {
+  font-size: 3rem;
+  aspect-ratio: 1/1;
+}
+.card__save-btn {
+  float: right;
+}/*# sourceMappingURL=MediaCard.css.map */

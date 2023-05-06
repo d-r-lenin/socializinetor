@@ -1,0 +1,17 @@
+.nav {
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.nav__sec {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 0;
+  align-items: center;
+}/*# sourceMappingURL=Nav.css.map */

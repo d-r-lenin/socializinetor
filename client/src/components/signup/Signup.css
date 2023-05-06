@@ -1,0 +1,69 @@
+.finput__input {
+  border: none;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  font-size: 1.4rem;
+  outline: none;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+.finput__input:focus {
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.signup__container {
+  width: 100%;
+  max-width: 50rem;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+}
+.signup__header {
+  padding: 2rem;
+  text-align: center;
+}
+.signup__logo-holder {
+  height: 100%;
+}
+.signup__logo {
+  height: 3.5rem;
+}
+.signup__form {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.signup__button {
+  width: 15rem;
+  max-width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1.6rem;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  background-color: #4facf8;
+  color: #f3f2f2;
+}
+.signup__footer {
+  padding: 2rem;
+  text-align: center;
+}
+.signup__footer-link {
+  color: #4facf8;
+  text-decoration: none;
+  font-size: 1.4rem;
+  padding: 0.5rem;
+  font-weight: 600;
+}/*# sourceMappingURL=Signup.css.map */

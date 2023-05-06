@@ -1,3 +1,6 @@
+import axios from "axios";
+
+
 import './App.scss';
 
 // react router
@@ -12,7 +15,8 @@ import Home from './components/home/Home';
 
 import SignIn from './components/signIn/SignIn';
 import SignUp from './components/signup/Signup';
-import axios from 'axios';
+import Loading from './components/loading/Loading';
+
 
 const router = createBrowserRouter([
   {
@@ -52,11 +56,14 @@ const router = createBrowserRouter([
 function App() {
 
   function signout(){
-    axios.get('http://localhost:4000/user/logout').then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.error(err)
-    })
+    axios
+        .get("http://192.168.0.101:4000/user/logout")
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
   }
 
   return (

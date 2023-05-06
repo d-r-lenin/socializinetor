@@ -1,0 +1,56 @@
+
+.loading {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000;
+    background-color: #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__anime-wrap{
+        width: 20rem;
+        height: 20rem;
+        position: relative;
+
+    }
+
+    &__anime{
+        width: 100%;
+        height: 100%;
+    }
+
+    &__anime-circle{
+        stroke: #000;
+        stroke-width: 1rem;
+        stroke-dasharray: 21%;
+        stroke-dashoffset: 0;
+        box-shadow: 0 0 10px -3px rgba(0, 0, 0, 0.2);
+        animation: anime 1s ease-in-out infinite;
+        -webkit-animation: anime 1s ease-in-out infinite;
+}
+
+    &__anime-text{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: 100;
+        text-align: center;
+    }
+}
+
+@keyframes anime {
+    0% {
+        // stroke-dasharray: 360;
+        stroke-dashoffset: 0;
+    }
+    // 50% {
+    //     // stroke-dasharray: 0;
+    //     stroke-dashoffset: ;
+    // }
+    100% {
+        // stroke-dasharray: 360;
+        stroke-dashoffset: 125%;
+    }
+}

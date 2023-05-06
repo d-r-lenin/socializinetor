@@ -139,13 +139,22 @@ def ping(request):
         cookies = request.cookies
         print(cookies)
         if token is None:
-            return jsonify({'message': 'Token is not provided'}), 401
-        tokenData = jwt.decode(token, MASTER_KEY, algorithms=['HS256'])
+            return jsonify({
+                'message': 'Token is not provided',
+                'error': 'Unauthorized',
+                'status': 401
+            }), 200
+        token_data = jwt.decode(token, MASTER_KEY, algorithms=['HS256'])
         # check if user exists
-        user = User.objects(username=tokenData['username']).first()
+        user = User.objects(username=token_data['username']).first()
         if user is None:
-            return jsonify({'message': 'user not exists'}), 401
-        return jsonify({'message': 'user is logged in'}), 200
+            return jsonify({'message': 'user not exists',
+                'error': 'Unauthorized',
+                'status': 404}), 200
+        return jsonify({
+                'message': 'user is logged in',
+                'status': 200
+            }), 200
     except (Exception) as e:
         # raise e
         return jsonify({'message': 'user is not logged in'}), 401

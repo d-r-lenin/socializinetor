@@ -4,6 +4,13 @@ import React from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+    isUserLoggedIn,
+    login
+} from '../../slices/auth';
+
 function FInput({type, name, placeholder}){
     return (
         <div className='finput'>
@@ -13,7 +20,13 @@ function FInput({type, name, placeholder}){
 }
 
 function SignIn() {
-    let host = 'http://localhost:4000'
+    const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
+
+    if (auth.isLoggedIn){
+        window.location.href = '/'
+    }
+
     async function handleSignIn(e){
         e.preventDefault()
         let username = e.target.username.value
@@ -22,18 +35,13 @@ function SignIn() {
             username,
             password
         }
-        let options = {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
-        }
-        let response = await axios.post(`${host}/user/login`, data, options)
-        console.log(response)
-        if (response.statusText === 'OK'){
-            localStorage.setItem('username', response.data.user)
-            window.location.href = '/'
-        }
+        
+        login(data, dispatch);
+        // console.log(response)
+        // if (response.statusText === 'OK'){
+        //     localStorage.setItem('username', response.data.user)
+        //     window.location.href = '/'
+        // }
     }
 
   return (
@@ -55,6 +63,11 @@ function SignIn() {
                 <Link to="/" className='signin__footer-link' >Forgot password?</Link>
                 <Link to="/signup" className='signin__footer-link' >Sign up for Sozi</Link>
             </div>
+            {
+                auth.error ? <div className='signin__error'>
+                    <p className='signin__error-text'>{auth.error}</p>
+                </div> : null
+            }
         </div>
 
     </div>
