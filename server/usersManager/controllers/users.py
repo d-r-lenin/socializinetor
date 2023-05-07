@@ -2,10 +2,20 @@ import jwt
 from flask import jsonify, make_response, request
 from json import loads
 from bcrypt import hashpw, gensalt, checkpw
+from marshmallow import ValidationError
 
 from config.keys import MASTER_KEY
 
 from models.user import User
+
+from controllers.validators import (
+    UserSchema,
+    SignInSchema
+)
+
+validate_user = UserSchema()
+validate_sign_in = SignInSchema()
+
 
 def genarateHash(password):
     return hashpw(password.encode('utf-8'), gensalt()).decode('utf-8')
@@ -13,21 +23,6 @@ def genarateHash(password):
 def validatePassword(password, hashedPassword):
     return checkpw(password.encode('utf-8'), hashedPassword.encode('utf-8'))
 
-def validateUser(data):
-    if 'username' not in data:
-        raise ValueError('username is required')
-    if 'password' not in data:
-        raise ValueError('password is required')
-    if 'email' not in data:
-        raise ValueError('email is required')
-    if 'confirmPassword' not in data:
-        raise ValueError('confirmPassword is required')
-    
-    if data['password'] != data['confirmPassword']:
-        raise ValueError('passwords do not match')
-    
-    # remove any extra data
-    return { 'username': data['username'], 'password': data['password'], 'email': data['email'] }
 
 
 def home():
@@ -37,7 +32,7 @@ def create_user(request):
     try:
         body = request.get_data()
         data = loads(body)
-        userData = validateUser(data)
+        userData = validate_user.load(data)
         userData['password'] = genarateHash(userData['password'])
         
         user = User(**userData)
@@ -58,15 +53,16 @@ def create_user(request):
 def login(request):
     try:
         body = loads(request.get_data())
-        user = User.objects(username=body['username']).first()
-        
-        print(user.password)
-        print(genarateHash(body['password']))
+        data = validate_sign_in.load(body)
+        user = User.objects(username=data['username']).first()
+    
+        # print(user.password)
+        # print(genarateHash(data['password']))
         
         if user is None:
-            raise ValueError('user not found')
-        if not validatePassword(body['password'], user.password):
-            raise ValueError('password is incorrect')
+            raise ValidationError('user not found', 'username')
+        if not validatePassword(data['password'], user.password):
+            raise ValidationError('password is incorrect', 'password')
         
         token = jwt.encode({ 'username': user.username }, MASTER_KEY, algorithm='HS256')
         
@@ -76,6 +72,12 @@ def login(request):
         
         return resp
     except (Exception) as e:
+        print(e)
+        # check if validation error
+        if isinstance(e, ValidationError):
+            print(e)
+            return jsonify({ 'error': e.normalized_messages() , 'message': 'user not logged in' })
+        raise e
         return jsonify({ 'error': str(e), 'message': 'user not logged in' })
 
 def logout(request):

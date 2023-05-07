@@ -12,6 +12,8 @@ from views.users import user_bp
 from views.profiles import profile_bp
 
 load_dotenv()
+init_db()
+
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
@@ -25,14 +27,6 @@ app.register_blueprint(user_bp, url_prefix="/user")
 app.register_blueprint(profile_bp, url_prefix="/profile")
 
 
-@app.before_request
-def init():
-    init_db()
-
-@app.after_request
-def close(responce):
-    close_db()
-    return responce
 
 @app.route("/")
 def hello_world():

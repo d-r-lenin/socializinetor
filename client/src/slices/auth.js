@@ -52,16 +52,24 @@ export const login = async (user, dispatch) => {
         }
     } catch (err) {
         console.log(err);
-        dispatch(loginFailure(err));
+        dispatch(loginFailure(err.message));
     }
 };
 
 export const register = async (user, dispatch) => {
     try {
         const res = await userApi.signup(user);
-        dispatch(loginSuccess(res.data));
+        console.log(res)
+        // if (res.data && res.data.error) {
+        //      return dispatch(loginFailure(res.data.error));
+        //  }
+        //  if (res.data && res.data.user) {
+        //      localStorage.setItem("user", JSON.stringify(res.data.user));
+        //      dispatch(loginSuccess(res.data.user));
+        //  }
+        // dispatch(loginSuccess(res.data));
     } catch (err) {
-        dispatch(loginFailure(err));
+        dispatch(loginFailure(err.message));
     }
 };
 

@@ -1,7 +1,6 @@
 import './SignIn.scss'
 
 import React from 'react'
-import axios from 'axios'
 import {Link} from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,11 +36,6 @@ function SignIn() {
         }
         
         login(data, dispatch);
-        // console.log(response)
-        // if (response.statusText === 'OK'){
-        //     localStorage.setItem('username', response.data.user)
-        //     window.location.href = '/'
-        // }
     }
 
   return (
@@ -65,7 +59,8 @@ function SignIn() {
             </div>
             {
                 auth.error ? <div className='signin__error'>
-                    <p className='signin__error-text'>{auth.error}</p>
+                    <p className='signin__error-text'>{
+                        JSON.stringify(auth.error)}</p>
                 </div> : null
             }
         </div>

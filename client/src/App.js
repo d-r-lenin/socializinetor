@@ -57,9 +57,10 @@ function App() {
 
   function signout(){
     axios
-        .get("http://192.168.0.101:4000/user/logout")
+        .get("http://localhost:4000/user/logout")
         .then((res) => {
             console.log(res);
+            window.location ='/';
         })
         .catch((err) => {
             console.error(err);

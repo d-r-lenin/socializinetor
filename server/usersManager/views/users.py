@@ -17,6 +17,7 @@ def test():
 def create():
     return create_user(request)
 
+
 @user_bp.route('/login', methods=['POST'])
 def log():
     return login(request)
