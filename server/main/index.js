@@ -4,9 +4,19 @@ require('./configs/db').connect();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
+const cors = require('cors');
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+app.use(
+    cors({
+        origin: process.env.ORIGIN || "http://localhost:5000",
+        // origin: "http://localhost:5000",
+        credentials: true,
+    })
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

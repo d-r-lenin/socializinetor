@@ -1,28 +1,119 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import postApi from "../APIs/post";
+
 export const postSlice = createSlice({
-    name: "post",
+    name: "posts",
     initialState: {
-        value: 0,
+        posts: [],
+        postsRender: {},
+        isLoading: false,
+        error: null,
     },
     reducers: {
-        increment: (state) => {
-            // Redux Toolkit allows us to write "mutating" logic in reducers. It
-            // doesn't actually mutate the state because it uses the Immer library,
-            // which detects changes to a "draft state" and produces a brand new
-            // immutable state based off those changes
-            state.value += 1;
+        getPostsStart: (state) => {
+            state.isLoading = true;
         },
-        decrement: (state) => {
-            state.value -= 1;
+        getPostsSuccess: (state, action) => {
+            state.posts = action.payload;
+            state.isLoading = false;
         },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload;
+        getPostsFailure: (state, action) => {
+            state.error = action.payload;
+            state.isLoading = false;
+        },
+        renderedPost: (state, action) => {
+            state.postsRender[action.payload.id] = action.payload;
         },
     },
 });
 
+export const getPosts = async (dispatch) => {
+    try {
+        const res = await postApi.getPosts();
+        if (res.data && res.data.posts) {
+            dispatch(getPostsSuccess(res.data.posts));
+        } else {
+            dispatch(getPostsFailure("No posts found"));
+        }
+    } catch (err) {
+        console.log(err);
+        dispatch(getPostsFailure(err.message));
+    }
+};
+
+export const getPostOfId = async (id, dispatch) => {
+    try {
+        dispatch(
+            renderedPost({
+                id: id,
+                isLoading: true,
+                post: null,
+            })
+        );
+        const res = await postApi.getPostOfId(id);
+            // console.log(res)
+        if (res.data && res.data['_id']) {
+            res.data.isLoading = false;
+            res.data.id = id;
+            const user = JSON.parse(localStorage.getItem('user'));
+            console.log(user)
+            if(res.data.likes.includes(user)) {
+                res.data.isLiked = true;
+            } else {
+                res.data.isLiked = false;
+            }
+            dispatch(renderedPost(res.data));
+        } else {
+            dispatch(
+                renderedPost({
+                    id: id,
+                    error: "Post not available",
+                    isLoading: false,
+                })
+            );
+        }
+    } catch (err) {
+        console.log(err);
+        dispatch(
+            renderedPost({
+                id:id,
+                error: err.message,
+                isLoading: false,
+            })
+        );
+    }
+};
+
+export const likePost = async (id, dispatch) => {
+    try {
+        const res = await postApi.likePost(id);
+        if (res.data && res.data['_id']) {
+            res.data.isLoading = false;
+            res.data.id = id;
+            res.data.isLiked = true;
+            dispatch(renderedPost(res.data));
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const unlikePost = async (id, dispatch) => {
+    try {
+        const res = await postApi.unlikePost(id);
+        if (res.data && res.data['_id']) {
+            res.data.isLoading = false;
+            res.data.id = id;
+            res.data.isLiked = false;
+            dispatch(renderedPost(res.data));
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = postSlice.actions;
+export const { getPostsStart, getPostsSuccess, getPostsFailure, renderedPost } = postSlice.actions;
 
 export default postSlice.reducer;

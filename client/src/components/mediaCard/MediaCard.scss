@@ -2,8 +2,8 @@
     background-color: #fcfcfc;
     max-width: 60rem;
     width: 100%;
-    padding:0 1rem ;
-    margin: 0 auto;
+    padding:.5rem 1rem ;
+    margin: 2rem auto;
 
     &__header{
         // background-color: #fff;
@@ -88,7 +88,7 @@
     }
 
     &__footer{
-        height: 5rem;
+        height: 3rem;
     }
 
     &__interaction-tray{
@@ -106,10 +106,38 @@
         font-size: 3rem;
         aspect-ratio: 1/1;
     }
+    &__like-btn{
+        
+        &:hover{
+            cursor: pointer;
+        }
+
+        svg, path{
+            fill: transparent;
+            transition: all .1s ease-in-out;
+            -webkit-transition: all .1s ease-in-out;
+            -moz-transition: all .1s ease-in-out;
+            -ms-transition: all .1s ease-in-out;
+            -o-transition: all .1s ease-in-out;
+}
+
+        &--liked {
+            svg path{
+                fill: #ff0000;
+            }
+            color: #ff0000;
+        }
+    }
 
     &__save-btn {
         float: right;
     }
 
+
+    &__likes{
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-left: 2rem;
+    }
 
 }

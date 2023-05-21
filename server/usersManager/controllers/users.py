@@ -33,6 +33,7 @@ def create_user(request):
         body = request.get_data()
         data = loads(body)
         userData = validate_user.load(data)
+        print("went here")
         userData['password'] = genarateHash(userData['password'])
         
         user = User(**userData)
@@ -47,7 +48,11 @@ def create_user(request):
         return resp
         
     except (Exception) as e:
-        return jsonify({ 'error': str(e), 'message': 'user not created' })
+        print(e)
+        if isinstance(e, ValidationError):
+            print(e)
+            return jsonify({ 'error': e.normalized_messages() , 'message': 'user not created' }), 400
+        return jsonify({ 'error': str(e), 'message': 'user not created' }), 400
 
 
 def login(request):
@@ -77,7 +82,7 @@ def login(request):
         if isinstance(e, ValidationError):
             print(e)
             return jsonify({ 'error': e.normalized_messages() , 'message': 'user not logged in' })
-        raise e
+        # raise e
         return jsonify({ 'error': str(e), 'message': 'user not logged in' })
 
 def logout(request):
@@ -155,7 +160,8 @@ def ping(request):
                 'status': 404}), 200
         return jsonify({
                 'message': 'user is logged in',
-                'status': 200
+                'status': 200,
+                'user': user.username,
             }), 200
     except (Exception) as e:
         # raise e

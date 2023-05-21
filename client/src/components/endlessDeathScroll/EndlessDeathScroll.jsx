@@ -1,28 +1,22 @@
 import React from 'react'
 
-import { generateRandomPosts } from '../../dummy/posts';
+import { useDispatch, useSelector } from 'react-redux';
 
 import StoriesTray from '../storiesTray/StoriesTray';
 import MediaCard from '../mediaCard/MediaCard';
 
-function EndlessDeathScroll() {
-  const [posts, setPosts] = React.useState([]);
+import { getPosts } from '../../slices/posts';
 
+function EndlessDeathScroll() {
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state.posts.posts);
+  console.log(posts)
   React.useEffect(() => {
     const fetchPosts = async () => {
-      let posts;
-      try{
-        posts = await generateRandomPosts();
-      } catch (err) {
-        console.error(err);
-        posts = [];
-      }
-
-      setPosts(posts);
-      console.log(posts);
+      await getPosts(dispatch);
     };
     fetchPosts();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -30,8 +24,8 @@ function EndlessDeathScroll() {
             <StoriesTray/>
         </div>
         <div>
-            {posts.map(post => (
-                <MediaCard key={post._id} post={post}/>
+            {posts.map(id => (
+                <MediaCard key={id} id={id}/>
             ))}
         </div>
     </div>

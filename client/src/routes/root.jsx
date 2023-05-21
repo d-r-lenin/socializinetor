@@ -37,11 +37,11 @@ export default function Root() {
                         <section className="main-layout__main-section">
                             <Outlet />
                         </section>
-                        <footer className="main-layout__footer">
+                        {/* <footer className="main-layout__footer">
                             <div className="main-layout__footer__text">
                                 <p>© 2021 INSTAGRAM FROM FACEBOOK</p>
                             </div>
-                        </footer>
+                        </footer> */}
                     </main>
                 </div>
             </> : <>

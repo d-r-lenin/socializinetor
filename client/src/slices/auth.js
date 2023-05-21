@@ -60,15 +60,19 @@ export const register = async (user, dispatch) => {
     try {
         const res = await userApi.signup(user);
         console.log(res)
-        // if (res.data && res.data.error) {
-        //      return dispatch(loginFailure(res.data.error));
-        //  }
-        //  if (res.data && res.data.user) {
-        //      localStorage.setItem("user", JSON.stringify(res.data.user));
-        //      dispatch(loginSuccess(res.data.user));
-        //  }
-        // dispatch(loginSuccess(res.data));
+        if (res.data && res.data.error) {
+             return dispatch(loginFailure(res.data.error));
+         }
+         if (res.data && res.data.user) {
+             localStorage.setItem("user", res.data.user);
+             dispatch(loginSuccess(res.data.user));
+         }
+        dispatch(loginSuccess(res.data));
     } catch (err) {
+        console.log(err.response.data)
+        if (err.code === "ERR_BAD_REQUEST") {
+            return dispatch(loginFailure(JSON.stringify(err.response.data.error)));
+        }
         dispatch(loginFailure(err.message));
     }
 };
@@ -77,6 +81,7 @@ export const isUserLoggedIn = async (dispatch) => {
     try {
         const res = await userApi.pingUser();
         if (res.data && res.data.status === 200) {
+            console.log(res.data)
             dispatch(changeLoginStatus());
         }
         return res.data;

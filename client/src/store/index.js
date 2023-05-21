@@ -7,7 +7,7 @@ import auth from '../slices/auth'
 
 export default configureStore({
   reducer: {
-    post: postReducer,
+    posts: postReducer,
     auth: auth,
   },
 })

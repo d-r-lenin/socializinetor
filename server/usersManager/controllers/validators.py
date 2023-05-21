@@ -9,9 +9,9 @@ class UserSchema(Schema):
     confirmPassword = fields.Str(required=True, validate=validate.Length(min=3, max=20))
 
     @validates_schema
-    def validate_confirmPassword(self, confirmPassword, **kwargs):
-        if confirmPassword != kwargs['password']:
-            raise ValidationError('passwords do not match')
+    def validate_confirmPassword(self, data, **kwargs):
+        if data.get('password') != data.get('confirmPassword'):
+            raise ValidationError({ "confirmPassword": ["not matchet with password"]});
 
     class Meta:
         ordered = True

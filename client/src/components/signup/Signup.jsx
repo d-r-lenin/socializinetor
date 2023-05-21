@@ -70,7 +70,7 @@ function SignUp() {
                   </Link>
               </div>
 
-              {auth.error && <div className="signup__error">{auth.error}</div>}
+              { !!auth.error && <div className="signup__error">{JSON.stringify(auth.error)}</div>}
           </div>
       </div>
   );

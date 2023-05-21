@@ -70,7 +70,6 @@ function App() {
   return (
     <div className="app">
       <RouterProvider router={router}/>
-      <button onClick={signout} >logout</button>
     </div>
   );
 }

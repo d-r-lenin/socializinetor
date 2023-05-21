@@ -8,7 +8,7 @@ let umHost = {
 
 // main backend host
 let host = {
-    dev: 'http://localhost:4000',
+    dev: 'http://localhost:3000',
     prod: 'https://socializinator.richardlenin.com'
 }
 

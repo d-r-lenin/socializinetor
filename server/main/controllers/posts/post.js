@@ -23,13 +23,19 @@ const controller = {
                         ],
                         totalCount: [{ $count: "count" }]
                     }
-                }
+                },
+                {
+                    $project: {
+                        posts: '$posts._id',
+                        totalCount: 1,
+                    }
+                },
             ]);
 
-            if(!posts)
+            if(!posts || posts.length !== 1)
                 throw new Error("No posts found$404");
 
-            res.json(posts);
+            res.json(posts[0]);
         } catch(err){
             console.log(err)
             res.sendError(err);
