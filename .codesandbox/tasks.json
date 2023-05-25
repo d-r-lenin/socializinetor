@@ -4,10 +4,5 @@
 
   // These tasks can be run from CodeSandbox. Running one will open a log in the app.
   "tasks": {
-    "npm start": {
-      "name": "npm start",
-      "command": "npm start",
-      "runAtStart": true
-    }
   }
 }
