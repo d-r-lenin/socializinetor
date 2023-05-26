@@ -11,7 +11,7 @@ from config.mongo import init_db, close_db
 from views.users import user_bp
 from views.profiles import profile_bp
 
-load_dotenv()
+load_dotenv() 
 init_db()
 
 
