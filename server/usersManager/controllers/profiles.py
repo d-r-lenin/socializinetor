@@ -108,6 +108,7 @@ def get_Display(id):
 
 def get_one_profile(request):
     try:
+        print(request.user.to_json())
         username = request.args.get('username')
         if username is None:
             raise ValueError('username is required')

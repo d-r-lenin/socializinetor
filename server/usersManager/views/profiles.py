@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from controllers.profiles import check_availability, create_profile, delete_profile, update_profile, get_one_profile, get_multiple_profiles, get_all_profiles, get_Display
 
+
 profile_bp = Blueprint('p', __name__)
 
 @profile_bp.route('/check/availability', methods=['GET'])
