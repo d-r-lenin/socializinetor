@@ -166,3 +166,28 @@ def ping(request):
     except (Exception) as e:
         # raise e
         return jsonify({'message': 'user is not logged in'}), 401
+    
+    
+    
+def get_user(token):
+    try :
+        if token is None:
+            return None
+        
+        token_data = jwt.decode(token, MASTER_KEY, algorithms=['HS256'])
+        
+        if token_data is None:
+            return None
+        
+        user = User.objects(username=token_data['username']).first()
+        
+        if user is None:
+            return None
+        
+        return user
+    except (Exception) as e:
+        print(e)
+        return None
+   
+    
+    

@@ -3,6 +3,26 @@ const { ObjectId } = mongoose.Types
 
 const Post = require('../../models/post.js');
 
+
+async function uploadImage(file) {
+    try {
+        const bucket = mongoose.connection.bucket;
+        const { originalname, mimetype, buffer } = file;
+        const uploadStream = bucket.openUploadStream(originalname, {
+            contentType: mimetype,
+        });
+        const id = uploadStream.id;
+        uploadStream.write(buffer);
+        await uploadStream.end();
+    
+        return id;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+
 const controller = {
     async getPosts(req,res){
         try{
@@ -45,8 +65,6 @@ const controller = {
     async createPost(req,res){
 
         try {
-            const bucket = mongoose.connection.bucket;
-            console.log(bucket)
             if (!req.body.title || !req.body.body) throw new Error("Title and body are required$400");
 
             const post = new Post({
@@ -58,15 +76,8 @@ const controller = {
 
             const file = req.file;
             if (file) {
-                const { originalname, mimetype, buffer } = file;
-                const uploadStream = bucket.openUploadStream(originalname, {
-                    contentType: mimetype,
-                });
-                const id = uploadStream.id;
-                uploadStream.write(buffer);
-                await uploadStream.end();
-
-                post.image = id;
+                post.image = await uploadImage(file);
+                if (!post.image) throw new Error("Error while uploading image$500");
             }
             
             const savedPost = await post.save();
@@ -173,7 +184,6 @@ const controller = {
             const id = req.params.id;
             if (!id) throw new Error("ID is required$400");
 
-
             // get file
             const downloadStream = bucket.openDownloadStream(new ObjectId(id));
             downloadStream.pipe(res);
@@ -182,5 +192,6 @@ const controller = {
         }
     }
 }
+
 
 module.exports = controller;

@@ -13,9 +13,15 @@ module.exports.connect = () => {
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {
         console.log('Connected to MongoDB');
-        bucket = new mongoose.mongo.GridFSBucket(db.db, {
+        
+        var bucket = new mongoose.mongo.GridFSBucket(db.db, {
             bucketName: 'media'
         });
+        var proBucket = new mongoose.mongo.GridFSBucket(db.db, {
+            bucketName: 'profile'
+        });
+
         mongoose.connection.bucket = bucket;
+        mongoose.connection.proBucket = proBucket;
     });
 }

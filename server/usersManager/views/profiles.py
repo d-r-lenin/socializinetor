@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 
-from controllers.profiles import check_availability, create_profile, delete_profile, update_profile, get_one_profile, get_multiple_profiles, get_all_profiles
+from controllers.profiles import check_availability, create_profile, delete_profile, update_profile, get_one_profile, get_multiple_profiles, get_all_profiles, get_Display
+
 
 profile_bp = Blueprint('p', __name__)
 
@@ -23,6 +24,10 @@ def update():
 @profile_bp.route('/get/one', methods=['GET'])
 def get_one():
     return get_one_profile(request)
+
+@profile_bp.route('/media/display/<id>', methods=['GET'])
+def get_display(id):
+    return get_Display(id)
 
 @profile_bp.route('/get/multiple', methods=['POST'])
 def get_multiple():
