@@ -48,7 +48,8 @@ exports.getPostOfId = async (id) => {
 exports.likePost = async (id) => {
     let res;
     try {
-        res = await axios.patch(urls.like(id));
+        // ignore error from api like 404 or 400 etc.
+        res = await axios.patch(urls.like(id), {}, { validateStatus: () => true });
     } catch (err) {
         console.error(err);
     } finally {

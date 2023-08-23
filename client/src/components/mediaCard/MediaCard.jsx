@@ -95,7 +95,7 @@ function MediaCard({ id }) {
                 </div>
             </div>
             <div className="card__after-footer">
-                <div className="card__likes">{post.likes.length} likes</div>
+                <div className="card__likes">{post?.likes?.length} likes</div>
             </div>
         </div>
     );

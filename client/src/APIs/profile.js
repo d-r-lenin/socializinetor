@@ -5,11 +5,37 @@ const { umHost, host } = config;
 
 const urls = {
     oneProfile: (name) => `${umHost}/profile/get/one?username=${name}`,
+    myProfile: () => `${umHost}/profile/check/availability`,
+    createProfile: () => `${umHost}/profile/create`,
 };
 
-axios.defaults.withCredentials = true;
+const exports = {
+    urls,
+};
 
-const exports = {};
+exports.createProfile = async (formData, config) => {
+    let res;
+    try {
+        res = await axios.post(urls.createProfile(), formData, config);
+    } catch (err) {
+        console.error(err);
+    } finally {
+        console.log(res);
+        return res;
+    }
+};
+
+exports.getMyProfile = async () => {
+    let res;
+    try {
+        res = await axios.get(urls.myProfile());
+    } catch (err) {
+        console.error(err);
+    } finally {
+        console.log(res);
+        return res;
+    }
+};
 
 exports.getOneProfile = async (name) => {
     let res;

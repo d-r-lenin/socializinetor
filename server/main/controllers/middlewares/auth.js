@@ -16,6 +16,7 @@ async function auth(req, res, next) {
         next();
     }
     catch (err) {
+        throw err;
         res.status(400).send('Invalid token.');
     }
 }

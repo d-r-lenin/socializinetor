@@ -10,25 +10,26 @@ from models.profile import Profile
 
 def validate_profile_data(body):
     validated_data = {}
-    if 'username' not in body:
+    if 'username' not in body or body['username'] == '':
         raise ValueError('username is required')
-    if 'name' not in body:
+    if 'name' not in body or body['name'] == '':
         raise ValueError('name is required')
+
     validated_data['username'] = body['username']
     validated_data['name'] = body['name']
-    
+
     if 'bio' in body:
         validated_data['bio'] = body['bio']
-    
+
     if 'display' in body:
         validated_data['display'] = body['display']
-    
+
     return validated_data
 
 
 def check_availability(request):
     try:
-        body = loads(request.get_data())
+        body = request.user
         if 'username' not in body:
             raise ValueError('username is required')
 
@@ -36,19 +37,19 @@ def check_availability(request):
 
         profile = Profile.objects(username=username).first()
         if profile is None:
-            return jsonify({ 'message': 'profile is not inserted', 'username': username, 'isPresent': False })
+            return jsonify({ 'message': 'profile is not inserted', 'username': username, 'isPresent': False, 'status': 404 })
         else:
-            return jsonify({ 'message': 'profile is present', 'username': username, 'isPresent': True })
+            return jsonify({ 'message': 'profile is present', 'username': username, 'isPresent': True, 'status': 200 })
     except (Exception) as e:
-        return jsonify({ 'error': str(e), 'message': 'username or email is not available' })
+        return jsonify({ 'error': str(e), 'message': 'username or email is not available', 'status': 400 })
 
 
 def create_profile(request):
     try:
         body = request.form
+        username = request.user['username']
         display = request.files['display']
-        validatad = validate_profile_data({**body, display: display})
-        
+        validatad = validate_profile_data({**body, display: display, 'username': username})
         
         profile = Profile( **validatad)
         

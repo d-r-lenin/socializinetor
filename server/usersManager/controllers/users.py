@@ -33,12 +33,20 @@ def create_user(request):
         body = request.get_data()
         data = loads(body)
         userData = validate_user.load(data)
+        # remove confirmPassword from userData
+        del userData['confirmPassword']
+        
+        # check if user exists
+        user = User.objects(username=userData['username']).first()
+        if user is not None:
+            raise ValidationError('username is not available', 'username')
+        
         print("went here")
         userData['password'] = genarateHash(userData['password'])
-        
+
         user = User(**userData)
         user.save()
-        
+
         token = jwt.encode({ 'username': user.username }, MASTER_KEY, algorithm='HS256')
         
         resp = make_response(jsonify({ 'message': 'user created', 'user': user.username }))
@@ -48,7 +56,7 @@ def create_user(request):
         return resp
         
     except (Exception) as e:
-        print(e)
+        # raise e
         if isinstance(e, ValidationError):
             print(e)
             return jsonify({ 'error': e.normalized_messages() , 'message': 'user not created' }), 400
@@ -68,9 +76,9 @@ def login(request):
             raise ValidationError('user not found', 'username')
         if not validatePassword(data['password'], user.password):
             raise ValidationError('password is incorrect', 'password')
-        
+
         token = jwt.encode({ 'username': user.username }, MASTER_KEY, algorithm='HS256')
-        
+        print(token)
         resp = make_response(jsonify({ 'message': 'user logged in', 'user': user.username }))
         
         resp.set_cookie('sozi-x-auth-token', token, httponly=True,samesite='None', secure=True)
@@ -78,6 +86,7 @@ def login(request):
         return resp
     except (Exception) as e:
         print(e)
+        # raise e
         # check if validation error
         if isinstance(e, ValidationError):
             print(e)
@@ -188,6 +197,3 @@ def get_user(token):
     except (Exception) as e:
         print(e)
         return None
-   
-    
-    
