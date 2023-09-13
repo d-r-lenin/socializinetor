@@ -56,7 +56,7 @@ export const getPostOfId = async (id, dispatch) => {
         if (res.data && res.data['_id']) {
             res.data.isLoading = false;
             res.data.id = id;
-            const user = JSON.parse(localStorage.getItem('user'));
+            const user = localStorage.getItem('user');
             console.log(user)
             if(res.data.likes.includes(user)) {
                 res.data.isLiked = true;

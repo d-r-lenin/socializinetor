@@ -74,7 +74,7 @@ export const login = async (user, dispatch) => {
             return dispatch(loginFailure(res.data.error));
         }
         if (res.data && res.data.user) {
-            localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("user", res.data.user);
             dispatch(loginSuccess(res.data.user));
         }
     } catch (err) {

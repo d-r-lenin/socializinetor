@@ -87,7 +87,7 @@ def delete_profile(request):
 
 def get_Display(id):
     try:
-        # display id is given 
+        # display id is given
         # get the display
         # return the display
         print(id)

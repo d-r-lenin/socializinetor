@@ -10,7 +10,7 @@ const controller = {
 
             if(req.body.body.trim() === '')
                 throw new Error("Comment body must not be empty$400");
-            
+
             if(req.body.body.length > 300)
                 throw new Error("Comment body must not be longer than 300 characters$400");
 

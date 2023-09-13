@@ -4,9 +4,10 @@ import config from "../config/env.js";
 const { umHost, host } = config;
 
 const urls = {
-    oneProfile: (name) => `${umHost}/profile/get/one?username=${name}`,
-    myProfile: () => `${umHost}/profile/check/availability`,
-    createProfile: () => `${umHost}/profile/create`,
+  oneProfile: (name) => `${umHost}/profile/get/one?username=${name}`,
+  myProfile: () => `${umHost}/profile/check/availability`,
+  createProfile: () => `${umHost}/profile/create`,
+  displayPicture: (id) => `${umHost}/profile//media/display/${id}`,
 };
 
 const exports = {
@@ -41,6 +42,13 @@ exports.getOneProfile = async (name) => {
     let res;
     try {
         res = await axios.get(urls.oneProfile(name));
+
+        let profile = res.data.profile;
+        if (profile) {
+            profile.display = urls.displayPicture(profile.display["$oid"]);
+        }
+
+        res.data = profile;
     } catch (err) {
         console.error(err);
     } finally {
