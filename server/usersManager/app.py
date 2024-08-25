@@ -1,4 +1,4 @@
-import os
+import os #import
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from flask_cors import CORS
